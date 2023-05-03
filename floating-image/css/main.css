@@ -1,0 +1,95 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+:root {
+	--black: #141414;
+	--index: calc(1vw + 1vh); /* valjda za ratio, npm */
+	--transition: 1.25s cubic-bezier(0.2, 0.5, 0, 1);
+	--transition-cursor: 2s cubic-bezier(0.05, 0.5, 0, 1);
+}
+@font-face {
+	font-family: arsenal_f;
+	src: url(../fonts/arsenal-regular.woff2);
+}
+body {
+	background-color: #f0f0f0;
+}
+.magic-list {
+	font-family: arsenal_f, sans-serif;
+	font-size: calc(var(--index) * 2.75);
+	padding: calc(var(--index) * 2.75);
+}
+.magic-list__item {
+	cursor: none;
+	color: var(--black);
+	text-decoration: none;
+	display: block;
+	line-height: 0.9;
+	padding: calc(var(--index) * 3) calc(var(--index) * 7.5);
+	border-bottom: 1px solid rgb(0 0 0 / 0.09);
+	counter-increment: my-counter; /* koliko ima itema, toliki ce counter biti */
+}
+.magic-list__item:first-child {
+	border-top: 1.5px solid var(--black);
+}
+.magic-list__header {
+	width: min-content;
+	transition: transform var(--transition);
+	will-change: transform;
+}
+.magic-list__item::before {
+	content: '(0' counter(my-counter) ')'; /* (01) (02) (03) (04) (05)  */
+	position: absolute;
+	font-size: calc(var(--index) * 0.95);
+	margin-left: calc(var(--index) * -2.25);
+	margin-top: calc(var(--index) / 2);
+	letter-spacing: 0.5px;
+	transition: transform var(--transition);
+	transition-delay: 0.025s;
+	will-change: transform;
+}
+.magic-list__item:hover .magic-list__header,
+.magic-list__item:hover::before {
+	transform: translate3d(calc(var(--index) * -5), 0, 0);
+}
+.cursor {
+	/* ovo je valjda ratio 22:14, mozemo i 16:9 */
+	--width: calc(var(--index) * 22);
+	--height: calc(var(--index) * 14);
+
+	position: fixed;
+	width: var(--width); /* mora fixed da bi moglo da pluta */
+	height: 0; /* height je 0 jer cemo ga animirati na hover magic-list__item */
+	top: calc(var(--height) * -0.5); /* -0.5 jer zelimo da mis bude na sredini visine */
+	left: calc(var(--width) * -0.5); /* -0.5 jer zelimo da mis bude na sredini sirine */
+	overflow: hidden;
+	transform: translate3d(var(--move-x), var(--move-y), 0);
+	transition: transform var(--transition-cursor), height 1s ease;
+	z-index: -1;
+	will-change: transform;
+}
+.magic-list__item:hover .cursor {
+	height: var(--height);
+}
+.cursor__image {
+	/*
+	ovo --move-x i --move-y je iz js-a, dobijamo ga sa mousemove eventom, koordinate clientX i clientY. A / -5 je da bi parallax efekt bio sto normalniji, minimalni; pogledaj kako je bez toga uzasno haha */
+	--cursor-transform: translate3d(calc(var(--move-x) / -5), calc(var(--move-y) / -5), 0);
+	position: relative;
+
+	/*
+	width i height diva slike valjda mora da bude duplo vece od width i height .cursor-a da bismo animirali parallax sliku u X odn Y osi, mora slika da bude duplo  sira i duze. I moramo u .cursor staviti overflow:hidden */
+	width: calc(var(--width) * 2);
+	height: calc(var(--height) * 2);
+	top: calc(var(--height) * -0.4); /* ponovo centriramo */
+	left: calc(var(--width) * -0.25); /* ponovo centriramo */
+	background-size: cover;
+	background-position: center;
+	transform: var(--cursor-transform) scale(1.5);
+	transition: transform var(--transition-cursor);
+}
+.magic-list__item:hover .cursor__image {
+	transform: var(--cursor-transform) scale(1);
+}
