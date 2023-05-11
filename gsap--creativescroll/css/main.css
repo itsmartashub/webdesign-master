@@ -57,7 +57,6 @@ body {
   bottom: 12vh;
   font-size: calc(var(--index) * 8);
   line-height: 0.9;
-  padding: 0 7vw;
 }
 .intro__img {
   width: calc(var(--index) * 36);
