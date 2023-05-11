@@ -55,7 +55,7 @@ body {
 	transform: translate3d(calc(var(--index) * -5), 0, 0);
 }
 .cursor {
-	/* ovo je valjda ratio 22:14, mozemo i 16:9 */
+	/* ovo je valjda ratio 22:14, dakle nece biti 16:9 */
 	--width: calc(var(--index) * 22);
 	--height: calc(var(--index) * 14);
 
