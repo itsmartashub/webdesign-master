@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --index: calc(1vw + 1vh);
+  --transition: 1.25s cubic-bezier(.2, .6, 0, 1);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-wrapper {
+  display: flex;
+  gap: var(--index);
+  height: 100%;
+  background-image: url(../img/bg.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.slider {
+  --slider-rotation-deg: 12.5deg;
+  transform: rotate(var(--slider-rotation-deg));
+  overflow: visible;
+}
+.slider:nth-child(odd) {
+  /* 
+  neparne .slider rotiramo za 180deg da budu kontra, pa plus onoliko za koliko smo rotirali .s.ider, dakle plus 12.5deg, dakle 192.5deg (180deg + 12.5deg = 192.5deg) al onda cemo .slide__img za odd .slider da rotiramo unazad, tj za 180 nazad, dakle -180deg.
+  To sve radimo da bismo even slider skrolovali u jednu stranu, a odd u drugu, bar vizuelno tako izgleda jer smo ove izopacili takoreci. CLEVER ako mene pitas */
+  transform: rotate(calc(var(--slider-rotation-deg) + 180deg));
+}
+.slider:nth-child(odd) .slider__img {
+  transform: rotate(-180deg);
+}
+.slider__wrapper {
+  will-change: transform;
+  transition: var(--transition) !important;
+}
+.slider__item {
+  will-change: transform;
+  width: 21vw;
+  margin-bottom: calc(var(--index) * 2.6);
+  cursor: pointer;
+  transition: transform var(--transition);
+  box-shadow: rgba(0, 0, 0, 0.15) 0 0 30px 10px;
+}
+.slider__item:hover {
+  transform: scale(1.04);
+}
+.slider__img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  border-radius: 8px;
+}/*# sourceMappingURL=main.css.map */
